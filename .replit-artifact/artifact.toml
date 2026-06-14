@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "SAM — Asset Management Agent"
+version = "1.0.0"
+id = "artifacts/sam-app"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20974
+
+[services.development]
+run = "pnpm --filter @workspace/sam-app run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/sam-app", "run", "build" ]
+publicDir = "artifacts/sam-app/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20974"
+BASE_PATH = "/"
